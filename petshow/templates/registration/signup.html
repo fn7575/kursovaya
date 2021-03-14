@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} <title>Регистрация учетной записи</title> {% endblock %}
+{% block content %}
+    <div class="header_text"><h4>РЕГИСТРАЦИЯ УЧЕТНОЙ ЗАПИСИ</h4></div>
+    <div class="section_signup">
+    <p>Создайте учетную запись, чтобы иметь полный доступ к возможностям сайта.</p>
+    <div class="card col-5">
+        <div class="card-body">
+    <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+        <input type="submit" class="btn btn-outline-success" value="Зарегистрироваться">
+    </form>
+    </div>
+    </div>
+    </div>
+{% endblock %}

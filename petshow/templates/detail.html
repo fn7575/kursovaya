@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} <title>{{article.article_title}}</title> {% endblock %}
+{% block content %}
+<div class = "section_detail">
+<div class="article">
+    <h3>{{article.article_title}}</h3>
+    <p>{{article.article_text}}</p>
+    <em>{{article.pub_date}}</em>
+ </div>
+<hr>
+<div class="comments">
+<h5> Комментарии: </h5>
+{% comment %} {% if comments %} {% endcomment %}
+    {% for comment in article.comments_set.all %}
+    <div class='comment border rounded col-3 mb-3'>
+    <div class='m-3'>
+    <strong>{{comment.author_name}}</strong>
+    <p>{{comment.comment_text}}</p>
+    </div>
+    </div>
+    {% endfor %}
+{% comment %} {% else %}
+<p>Комментариев нет!</p>
+{% endif %}  {% endcomment %}
+</div>
+<hr>
+{% if user.is_authenticated%}
+    <div class="comments_form">
+        <h4>Оставить комментарий</h4>
+            <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+	<input type="submit" class="btn btn-success w-100" value="Отправить"/>
+            </form>
+    </div>
+{% else %}
+    <div class="d-flex justify-content-center">
+    <div class="h6 alert alert-comments alert-info d-flex justify-content-center align-items-center" role="alert">    
+    Зарегистрируйтесь, чтобы оставить комментарий!
+    </div>
+    </div>
+{% endif %}
+</div>
+{% endblock %}

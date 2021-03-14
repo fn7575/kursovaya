@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="shortcut icon" type="image/png" href="{% static "images/favicon.png" %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+   {% block title %} <title>Pet Show</title> {% endblock %}
+   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<b63ad70b-32ef-4920-952d-d2116d9bcb9c>" type="text/javascript"></script>
+</head>
+<body>
+<div class="wrapper">
+<header>
+ <div class="left_header_container col-4">
+    <a href="{% url 'home' %}"><div class="main_link"> 
+      <h5>Выставка домашних животных</h5>
+      </div>
+      </a>
+      </div> 
+      <div class="right_header_container col-8">
+        <nav class="nav-base col-9">
+          <ul class="ul">
+            <li class="li"><a href="{% url 'home' %}">На главную</a></li>
+            <li class="li"><a href="{% url 'shows' %}">Выставки</a></li>
+            <li class="li"><a href="{% url 'article' %}">Статьи</a></li>
+            <li class="li"><a href="{% url 'about_us' %}">О нас</a></li>
+          </ul>
+        </nav>
+      
+        <div class = "authorization col-3">
+        {% if user.is_authenticated%}
+        <div class="dropdown">
+  <button class="btn btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       <img class="rounded account-img" src="{{ user.profile.image.url }}" width=30 height=30>
+ {{user.username}}
+  </button>
+  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href= "{% url 'profile' %}">Профиль</a>
+    <a class="dropdown-item" href= "{% url 'logout' %}">Выйти</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="{% url 'password_change' %}">Сменить пароль</a>
+  </div>
+          {%else%}
+          <a href= "{% url 'login' %}">
+        <img class="logo_authorization" src="{% static "images/authorization.png"%}">Авторизация</a>
+          {%endif%}
+        </div>
+      </div>
+    </header>
+    {% block content %}
+    <div class="main_container">
+      <div class="left_box">
+      <div class = "welcome_text">
+<p>Добро пожаловать на наш сайт!</p>
+<p>У нас ваш питомец может принять участие в выставке, а так же вы можете почитать и обсудить интерессные статьи.</p>
+      </div>
+          <img class="left-box__img" src="{% static "images/img-leftbox.jpeg"%}" alt="">
+      </div>
+      <div class="right_box"></div>
+    </div>
+{% endblock %}
+<footer class="footer">
+    <div class="container">
+        <div class="text-center py-3">
+  © 2021<a href="{% url 'home' %}"> Выставка домашних животных</a>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% comment %} <script src="{% static "js/jquery.min.js" %}"></script> {% endcomment %}
+{% comment %} <script src="{% static "js/popper.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script> {% endcomment %}
+</body>
+</html>

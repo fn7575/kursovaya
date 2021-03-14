@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} <title>О нас</title> {% endblock %}
+{% block content %}
+<div class = "section_about_us">
+<div class='info_about_us'>
+<h6> На нашем сайте проходят выставки домашних животных, а также вы можете почитать интересные статьи про питомцев.</h6>
+</div>
+<div class="info_contact">
+<p>Если у вас возникли какие-то вопросы или пожелания для улучшения проекта, то напишите письмо по <a href="{% url 'contact' %}">обратной связи</a></br>
+Так же вы можете позвонить нам по номеру <span>+7(999)888-77-66</span> <br>Звоните, мы всегда на связи!</p>
+<p><strong>Мы на карте:</strong></p>
+    <div id="map">
+    </div>
+</div>
+</div>
+<script src="{% static "js/placemark.js" %}" type="text/javascript"></script>
+{% endblock %}

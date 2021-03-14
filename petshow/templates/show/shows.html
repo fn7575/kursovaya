@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% load static %} {% block title %}
+<title>Выставки</title> {% endblock %} {% block content %}
+<div class="section_shows">
+  <div class="second-header">
+    {% comment %}
+    <div class="dropdown dropdown-shows col-7">
+      <button
+        class="btn btn btn-lg dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Категории
+      </button>
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        aria-labelledby="dropdownMenuLink"
+      >
+        <a class="dropdown-item" href="{% url 'dogshow' %}">Выставка собак</a>
+        <a class="dropdown-item" href="{% url 'catshow' %}">Выставка кошек</a>
+      </div>
+    </div>
+    {% endcomment %}
+    <nav class="nav-shows">
+      <ul class="ul">
+        {% if user.is_authenticated%}
+        <li class="li">
+          <a class="link_mypets" href="{% url 'mypets' %}">Ваши питомцы</a>
+        </li>
+        {% else %}
+        <li class="li">
+          <a
+            href=""
+            class="link_mypets"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+            >Ваши питомцы</a
+          >
+        </li>
+        <div
+          class="modal fade"
+          id="exampleModalCenter"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  У вас нет доступа!
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  <a href="{% url 'login' %}">Войдите</a> в аккаунт или
+                  <a href="{%url 'signup' %}">зарегистрируйтесь</a>, чтобы
+                  добавить питомца и принять участие в выставке.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+  <div class="content-show">
+    <div class="category_selection">
+      <a class="link_dog_category" href="{% url 'dogshow' %}">
+        <div class="dog_category">
+          <h4 class="show_name">Выставка собак</h4>
+          <img class="dog_img" src="{% static "images/dog1.png"%}">
+        </div>
+      </a>
+      <a class="link_cat_category" href="{% url 'catshow' %}">
+        <div class="cat_category">
+          <h4 class="show_name">Выставка кошек</h4>
+          <img class="cat_img" src="{% static "images/cat2.png"%}">
+        </div>
+      </a>
+    </div>
+    <div class="shows-info alert alert-info">
+      <p class="h4">Как участвовать в выставке?</p>
+      <ol>
+        <li>Вы должны быть авторизованы.</li>
+        <li>
+          Добавьте своего питомца в разделе "Ваши питомцы".
+        </li>
+        <li>
+          Выберите категорию.
+        </li>
+        <li>
+          Добавьте питомца на выставку.
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+{% endblock %}

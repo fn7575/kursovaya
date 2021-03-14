@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} <title>Мои питомцы</title> {% endblock %}
+{% block content %}
+<div class="section_mypets">
+    <div class="row py-4">
+        <div class="col-md-10 offset-md-1">
+            <a class="btn btn-success mb-3" href="{% url 'add_pet' %}">Добавить питомца</a>
+            <table class="table" border="1">
+                <thead>
+                <tr>
+                    <th>Кличка</th>
+                    <th>Пол</th>
+                    <th>Возраст</th>
+                    <th>Порода</th>
+                    <th>Информация</th>
+                    <th>Фото</th>
+                    <th>Выставка</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for pet in pets %}
+                <tr>
+                    <td>{{ pet.nick }}</td>
+                    <td>{{ pet.gender }}</td>
+                    <td>{{ pet.age }}</td>
+                    <td>{{ pet.breed }}</td>
+                    <td>{{ pet.info }}</td>
+                    <td><img src="{{ pet.image.url }}" style="max-width: 140px; max-height: 140px;"></td>
+                    <td style="min-width: 300px;">
+                        {% if pet.show %}
+                        Участвует в выставке:
+                        {% else %}
+                        Принять участие:
+                        {% endif %}
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="pet" value="{{ pet.id }}">
+                            <div class="form-group">
+                                <select name="show" class="form-control" {% if pet.show %}disabled="disabled"{% endif %}>
+                                    <option value="" {% if not pet.show %}selected="selected" disabled{% endif %}>Участвовать</option>
+                                    <option value="dogs" {% if pet.show == 'dogs' %}selected="selected"{% endif %}>dogs</option>
+                                    <option value="cats" {% if pet.show == 'cats' %}selected="selected"{% endif %}>cats</option>
+                                </select>
+                            </div>
+                            {% if not pet.show %}
+                            <button class="btn btn-outline-success" type="submit">Принять участие</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

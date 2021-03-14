@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} <title>{{ title }}</title> {% endblock %}
+{% block content %}
+<div class = "content_shows">
+
+    <div class="row">
+        <div class="col-12">
+            {% if pets %}
+
+                {% if request.user.is_superuser %}
+                    {% if not pets.first.can_vote_before_date %}
+                    <a href="{% url 'start_show' slug %}">Начать выставку</a>
+                    {% else %}
+                    <a href="{% url 'stop_show' slug %}">Остановить выставку</a>
+                    {% endif %}
+                {% endif %}
+
+                {% if pets.first.can_vote_before_date %}
+                    <p>Выставка началась: {{ pets.first.can_vote_before_date }}</p>
+                {% endif %}
+
+                <table class="table" border="1">
+                    <thead>
+                    <tr>
+                        <th>Кличка</th>
+                        <th>Пол</th>
+                        <th>Возраст</th>
+                        <th>Порода</th>
+                        <th>Информация</th>
+                        <th>Фото</th>
+                        <th>Лайки</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for pet in pets %}
+                    <tr>
+                        <td>{{ pet.nick }}{% if pet.is_winner %}</br><h5 style="color: darkgreen;"><b>Победитель</b></h5>{% endif %}</td>
+                        <td>{{ pet.gender }}</td>
+                        <td>{{ pet.age }}</td>
+                        <td>{{ pet.breed }}</td>
+                        <td>{{ pet.info }}</td>
+                        <td><img src="{{ pet.image.url }}" style="max-width: 140px; max-height: 140px;"></td>
+                        <td style="min-width: 200px;">{{ pet.likes.count }}
+                            {% if pet.can_vote_before_date %}
+                            <br>
+                                {% if request.user not in pet.likes.all %}
+                                <a class="btn btn-success" href="{% url 'vote_plus' pet.id %}">+</a>
+                                {% else %}
+                                <a class="btn btn-danger" href="{% url 'vote_minus' pet.id %}">-</a>
+                                {% endif%}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% else %}
+                <p>Необходимо добавить животных для выставки.</p>
+            {% endif%}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
